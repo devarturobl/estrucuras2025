@@ -8,3 +8,6 @@ function saludar(){
     alert("Hola, Bienvenidos, este ejemplo muestra como incorporar JS en HTML");
 }
 
+function teSaludo(nombre){
+    alert("Hola " + nombre + ", Bienvenidos, este ejemplo muestra como incorporar JS en HTML");
+}
