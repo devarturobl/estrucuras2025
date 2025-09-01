@@ -1,0 +1,5 @@
+HTML inicia con la etiqueta <!DOCTYPE html> y termina con la etiqueta </html>
+
+tipos de etiqueta
+1 es aquella que tiene un inicio y un fin puede contener mas etiquetas dentro
+2 es aquella que solo indica incio y fin en una sola etiqueta ejemplo <nombre/>
