@@ -13,7 +13,7 @@ function teSaludo(nombre){
 }
 
 function fizzBuzz(){
-    for(let num=1; num<=100; num++){
+    for(let num=1; num<=100; num*=4){
         if(num % 3 === 0 && num % 5 === 0){
             console.log("FizzBuzz");
         } else if(num % 3 === 0){
