@@ -1,0 +1,40 @@
+/*Colores de fondo usado en las columnas responsive*/
+/* xs (por defecto, <576px) */
+.responsive-bg {
+    background-color: var(--bs-success); /* verde */
+}
+
+/* sm (≥576px) */
+@media (min-width: 576px) {
+  .responsive-bg {
+    background-color: var(--bs-primary);
+  }
+}
+
+/* md (≥768px) */
+@media (min-width: 768px) {
+  .responsive-bg {
+    background-color: var(--bs-secondary);
+  }
+}
+
+/* lg (≥992px) */
+@media (min-width: 992px) {
+  .responsive-bg {
+    background-color: var(--bs-danger);
+  }
+}
+
+/* xl (≥1200px) */
+@media (min-width: 1200px) {
+  .responsive-bg {
+    background-color: var(--bs-warning);
+  }
+}
+
+/* xxl (≥1400px) */
+@media (min-width: 1400px) {
+  .responsive-bg {
+    background-color: var(--bs-info);
+  }
+}
