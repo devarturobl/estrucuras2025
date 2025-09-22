@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Ejemplo Simple</title>
+  <script>
+    function procesarFormulario() {
+      // Obtener los valores del formulario
+      const valor1 = document.getElementById("dato1").value;
+      const valor2 = document.getElementById("dato2").value;
+
+      // Convertir a número y sumar
+      const suma = Number(valor1) + Number(valor2);
+
+      // Crear contenido HTML dinámicamente
+      const resultadoHTML = `<p>La suma es: <strong>${suma}</strong></p>`;
+
+      // Insertar el contenido en el div
+      document.getElementById("resultado").innerHTML = resultadoHTML;
+    }
+  </script>
+</head>
+<body>
+  <h2>Formulario de Suma</h2>
+
+  <label>Dato 1:</label>
+  <input type="text" id="dato1"><br><br>
+
+  <label>Dato 2:</label>
+  <input type="text" id="dato2"><br><br>
+
+  <button onclick="procesarFormulario()">Enviar</button>
+
+  <div id="resultado"></div>
+</body>
+
+</html>
