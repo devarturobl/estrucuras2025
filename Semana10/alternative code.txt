@@ -1,0 +1,66 @@
+Codigo para <!-- ========== Start 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="styles.css">
+    <title>Clase 6 - Consumiendo un API</title>
+</head>
+<body>
+    <h1>Bienvenidos al sitio de consumo api de Rick and Morty</h1>
+    <h2>Este sitio es una demo de como consumir datos en JS API: <a href="https://rickandmortyapi.com/" target="_blank">Rick and Morty API</a></h2>
+    <main>
+    </main>
+    <script src="script.js"></script>
+</body>
+</html> ========== -->
+
+<!-- ========== End <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="styles.css">
+    <title>Clase 6 - Consumiendo un API</title>
+</head>
+<body>
+    <h1>Bienvenidos al sitio de consumo api de Rick and Morty</h1>
+    <h2>Este sitio es una demo de como consumir datos en JS API: <a href="https://rickandmortyapi.com/" target="_blank">Rick and Morty API</a></h2>
+    <main>
+    </main>
+    <script src="script.js"></script>
+</body>
+</html> 
+========== -->
+
+
+Codigo para JS
+function getCharacters(done){
+    const url = "https://rickandmortyapi.com/api/character?page=2";
+    fetch(url)
+        .then(response => response.json())
+        .then(data => {
+        done(data);
+        })
+        .catch(error => console.error('Error fetching characters:', error));
+}
+
+getCharacters(data =>{
+    data.results.forEach(personajes => {
+        const article = document.createRange().createContextualFragment(`
+            <article>
+                <div class="image-container">
+                    <img src="${personajes.image}" alt="${personajes.name}" class="character-image">
+                </div>
+                <h3>Personaje: ${personajes.name}</h3>
+                <p>Status: ${personajes.status}</p>
+                <p>Species: ${personajes.species}</p>
+                <p>Type: ${personajes.type}</p>
+            </article>
+        `);
+
+        const main = document.querySelector("main");
+        main.append(article);
+    })
+});

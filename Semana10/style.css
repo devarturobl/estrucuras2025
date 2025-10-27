@@ -1,0 +1,187 @@
+/* Theme inspirado en rickandmortyapi.com - colores y estilos aproximados */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap');
+
+:root{
+	/* Paleta aproximada */
+	--bg-900: #0b1220; /* fondo oscuro */
+	--bg-800: #0e1624;
+	--card-bg: rgba(255,255,255,0.03);
+	--muted: #98a0ad;
+	--accent-green: #2ceaa6; /* acento principal */
+	--accent-yellow: #ffd166; /* acento secundario */
+	--glass-border: rgba(255,255,255,0.06);
+	--radius: 12px;
+	--max-width: 1100px;
+}
+
+/* Reset y globales */
+*{box-sizing:border-box}
+html,body{height:100%}
+body{
+	margin:0;
+	font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;
+	background-color:var(--bg-900);
+	color:#e6eef6;
+	-webkit-font-smoothing:antialiased;
+	-moz-osx-font-smoothing:grayscale;
+	line-height:1.4;
+	background-image: radial-gradient(1200px 600px at 10% 10%, rgba(46, 234, 166, 0.06), transparent 8%),
+										radial-gradient(800px 380px at 90% 80%, rgba(255, 209, 102, 0.03), transparent 10%);
+	background-repeat:no-repeat;
+	background-attachment:fixed;
+	padding-bottom:40px;
+}
+
+.container{
+	width:calc(100% - 40px);
+	max-width:var(--max-width);
+	margin:0 auto;
+	padding:24px 0;
+}
+
+/* Header */
+.site-header{
+	width:100%;
+	background:linear-gradient(180deg, rgba(255,255,255,0.02), transparent);
+	border-bottom:1px solid var(--glass-border);
+	backdrop-filter: blur(6px);
+	position:sticky;
+	top:0;
+	z-index:40;
+}
+.site-header .container{
+	display:flex;
+	align-items:center;
+	justify-content:space-between;
+	gap:12px;
+}
+.brand{
+	display:flex;
+	align-items:center;
+	gap:12px;
+}
+.logo-placeholder{
+	width:44px;
+	height:44px;
+	border-radius:10px;
+	background:linear-gradient(135deg,var(--accent-green), #7bffcf 60%);
+	box-shadow:0 6px 18px rgba(46,234,166,0.12), inset 0 -2px 6px rgba(255,255,255,0.05);
+	display:flex;
+	align-items:center;
+	justify-content:center;
+	font-weight:700;
+	color:#021014;
+}
+.site-title{
+	font-weight:700;
+	letter-spacing:0.2px;
+	color: #eafbf7;
+}
+.nav-actions{display:flex;gap:10px;align-items:center}
+
+/* Buttons */
+.btn{
+	display:inline-flex;
+	align-items:center;
+	gap:8px;
+	padding:8px 14px;
+	border-radius:10px;
+	border:1px solid transparent;
+	background:transparent;
+	color:var(--accent-green);
+	cursor:pointer;
+	font-weight:600;
+}
+.btn.btn-primary{
+	background:linear-gradient(90deg,var(--accent-green), #6af9c9);
+	color:#042016;
+	box-shadow:0 8px 30px rgba(46,234,166,0.12);
+	border:1px solid rgba(255,255,255,0.06);
+}
+.btn:hover{transform:translateY(-2px)}
+
+/* Hero */
+.hero{
+	padding:48px 0 28px;
+}
+.hero-grid{
+	display:grid;
+	grid-template-columns:1fr 360px;
+	gap:28px;
+	align-items:start;
+}
+.hero-card{
+	background:linear-gradient(180deg, rgba(255,255,255,0.02), transparent);
+	border:1px solid var(--glass-border);
+	padding:22px;
+	border-radius:var(--radius);
+}
+
+/* Cards (lista de personajes o recursos) */
+.grid{
+	display:grid;
+	grid-template-columns:repeat(auto-fill,minmax(220px,1fr));
+	gap:18px;
+}
+.card{
+	background:var(--card-bg);
+	border-radius:12px;
+	padding:12px;
+	border:1px solid rgba(255,255,255,0.03);
+	transition:transform .18s ease, box-shadow .18s ease;
+	overflow:hidden;
+}
+.card:hover{
+	transform:translateY(-8px) scale(1.01);
+	box-shadow:0 18px 40px rgba(0,0,0,0.6), 0 6px 20px rgba(46,234,166,0.06);
+}
+.card .thumb{
+	width:100%;
+	height:160px;
+	border-radius:8px;
+	object-fit:cover;
+	background:linear-gradient(180deg, rgba(0,0,0,0.2), rgba(0,0,0,0.35));
+	display:block;
+}
+.card h3{margin:10px 0 6px;font-size:1.05rem}
+.card p{margin:0;color:var(--muted);font-size:.92rem}
+
+.badge{
+	display:inline-block;
+	padding:4px 8px;
+	border-radius:999px;
+	font-size:0.78rem;
+	font-weight:600;
+	color:#021014;
+	background:var(--accent-yellow);
+}
+
+/* Footer */
+.site-footer{
+	margin-top:40px;
+	padding:28px 0;
+	color:var(--muted);
+	border-top:1px solid var(--glass-border);
+}
+
+/* Utilities */
+.muted{color:var(--muted)}
+.flex{display:flex}
+.center{display:flex;align-items:center;justify-content:center}
+
+/* Responsive */
+@media (max-width:900px){
+	.hero-grid{grid-template-columns:1fr}
+	.site-header .container{padding:10px 0}
+}
+
+@media (max-width:480px){
+	.card .thumb{height:140px}
+	.container{padding-left:16px;padding-right:16px}
+}
+
+/* Accesibilidad: focus visible */
+:focus{outline:2px dashed var(--accent-green);outline-offset:3px}
+
+/* Fin de estilos */
+

@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>Rick and Morty - Demo</title>
+</head>
+<body>
+    <header class="site-header">
+        <div class="container">
+            <div class="brand">
+                <div class="logo-placeholder">RM</div>
+                <div>
+                    <div class="site-title">Rick & Morty Demo</div>
+                    <div class="muted" style="font-size:0.85rem">Demo: consumo de la API pública</div>
+                </div>
+            </div>
+            <div class="nav-actions">
+                <a class="btn" href="https://rickandmortyapi.com/" target="_blank">API oficial</a>
+                <button class="btn btn-primary" id="refreshBtn">Actualizar</button>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <section class="hero">
+            <div class="container hero-grid">
+                <div class="hero-card">
+                    <h1 style="margin:0 0 8px">Explora personajes</h1>
+                    <p class="muted">Esta demo carga los personajes desde la API pública de Rick and Morty y muestra tarjetas responsivas con imagen, estado y otros metadatos.</p>
+                    <div style="margin-top:12px"><small class="muted">Páginas: 1 (demo)</small></div>
+                </div>
+                <aside class="hero-card">
+                    <h3 style="margin-top:0">Acerca</h3>
+                    <p class="muted">Interfaz inspirada en la paleta y estilo de <a href="https://rickandmortyapi.com/" target="_blank">rickandmortyapi.com</a>.</p>
+                </aside>
+            </div>
+        </section>
+
+        <div class="container">
+            <div id="grid" class="grid" aria-live="polite"></div>
+        </div>
+    </main>
+
+    <footer class="site-footer">
+        <div class="container">
+            <div class="muted">Datos proporcionados por <a href="https://rickandmortyapi.com/" target="_blank">Rick and Morty API</a></div>
+        </div>
+    </footer>
+
+    <script src="code.js"></script>
+</body>
+</html>
