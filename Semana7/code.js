@@ -35,10 +35,34 @@ let miEstructura = {
     estatura: 0.1
 };
 
+// Start with an empty array; elements will be added via addStructA
+let miEstructuraArreglo = [];
+
 function datoStruct(){
     miEstructura.nombre = document.getElementById("nombre1").value;
     miEstructura.edad = parseInt(document.getElementById("edad").value);
     miEstructura.telefono = document.getElementById("telefono").value;
     miEstructura.estatura = parseFloat(document.getElementById("es").value);
     miEstructura.soltero = document.getElementById("solteroStruct").value;
+}
+
+function datoStructA(){
+    let nombre = document.getElementById("nombre2").value;
+    let edad = parseInt(document.getElementById("edad2").value);
+    let telefono = document.getElementById("telefono2").value;
+    let estatura = parseFloat(document.getElementById("es2").value);
+    let soltero = document.getElementById("genero2").value;
+
+    addStructA(nombre, edad, telefono, estatura, soltero);
+}
+
+function addStructA(nombre, edad, telefono, estatura, soltero){
+    miEstructuraArreglo.push({
+        nombre: nombre,
+        edad: edad,
+        telefono: telefono,
+        estatura: estatura,
+        soltero: soltero
+    });
+    return console.log(miEstructuraArreglo);
 }
