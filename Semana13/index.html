@@ -1,0 +1,311 @@
+<!DOCTYPE html><html lang="es"><head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>EduTrack - Sistema de Asistencia y Participación</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com"/>
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin=""/>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap" rel="stylesheet"/>
+    <style>
+        * { font-family: 'Inter', sans-serif; }
+        .mono { font-family: 'JetBrains Mono', monospace; }
+        .gradient-bg { background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%); }
+        .card-hover { transition: all 0.2s ease-out; }
+        .card-hover:hover { transform: translateY(-2px); box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1); }
+        .pulse-animation { animation: pulse 2s infinite; }
+        @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.5; } }
+        .slide-in { animation: slideIn 0.3s ease-out; }
+        @keyframes slideIn { from { transform: translateY(-20px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+        .loading-skeleton { background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%); background-size: 200% 100%; animation: loading 1.5s infinite; }
+        @keyframes loading { 0% { background-position: 200% 0; } 100% { background-position: -200% 0; } }
+    </style>
+<script src="https://statics.moonshot.cn/sdk/preview-widgets.min.js" defer=""></script></head>
+<body class="gradient-bg min-h-screen">
+    <!-- Navigation -->
+    <nav class="bg-white shadow-sm border-b border-gray-200 sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <div class="flex items-center space-x-4">
+                    <div class="flex-shrink-0">
+                        <h1 class="text-2xl font-bold text-blue-600">EduTrack</h1>
+                    </div>
+                    <div class="hidden md:block">
+                        <p class="text-sm text-gray-500">Sistema de Asistencia y Participación</p>
+                    </div>
+                </div>
+                <div class="flex items-center space-x-4">
+                    <button id="exportBtn" class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors">
+                        Exportar Datos
+                    </button>
+                    <div class="w-8 h-8 bg-gray-300 rounded-full"></div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <!-- Dashboard Header -->
+        <div class="mb-8">
+            <h2 class="text-3xl font-bold text-gray-900 mb-2">Panel de Control</h2>
+            <p class="text-gray-600">Gestiona la asistencia y participación de tus estudiantes</p>
+        </div>
+
+        <!-- Quick Stats -->
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
+            <div class="bg-white rounded-xl p-6 shadow-sm border border-gray-200 card-hover">
+                <div class="flex items-center">
+                    <div class="p-3 bg-blue-100 rounded-lg">
+                        <svg class="w-6 h-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"></path>
+                        </svg>
+                    </div>
+                    <div class="ml-4">
+                        <p class="text-sm font-medium text-gray-600">Total Estudiantes</p>
+                        <p class="text-2xl font-bold text-gray-900" id="totalStudents">24</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-white rounded-xl p-6 shadow-sm border border-gray-200 card-hover">
+                <div class="flex items-center">
+                    <div class="p-3 bg-green-100 rounded-lg">
+                        <svg class="w-6 h-6 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                        </svg>
+                    </div>
+                    <div class="ml-4">
+                        <p class="text-sm font-medium text-gray-600">Asistencia Hoy</p>
+                        <p class="text-2xl font-bold text-gray-900" id="attendanceToday">92%</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-white rounded-xl p-6 shadow-sm border border-gray-200 card-hover">
+                <div class="flex items-center">
+                    <div class="p-3 bg-purple-100 rounded-lg">
+                        <svg class="w-6 h-6 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"></path>
+                        </svg>
+                    </div>
+                    <div class="ml-4">
+                        <p class="text-sm font-medium text-gray-600">Participación Promedio</p>
+                        <p class="text-2xl font-bold text-gray-900" id="avgParticipation">7.8</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-white rounded-xl p-6 shadow-sm border border-gray-200 card-hover">
+                <div class="flex items-center">
+                    <div class="p-3 bg-amber-100 rounded-lg">
+                        <svg class="w-6 h-6 text-amber-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                        </svg>
+                    </div>
+                    <div class="ml-4">
+                        <p class="text-sm font-medium text-gray-600">Clases Hoy</p>
+                        <p class="text-2xl font-bold text-gray-900" id="classesToday">3</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Main Actions -->
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            <!-- Attendance Section -->
+            <div class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
+                <div class="p-6 border-b border-gray-200">
+                    <h3 class="text-lg font-semibold text-gray-900 mb-2">Registro de Asistencia</h3>
+                    <p class="text-sm text-gray-600">Marca la asistencia de tus estudiantes</p>
+                </div>
+                <div class="p-6">
+                    <div class="space-y-4">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Clase</label>
+                            <select id="classSelect" class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+                                <option value="">Seleccionar clase</option>
+                                <option value="math-10a">Matemáticas 10A</option>
+                                <option value="science-10b">Ciencias 10B</option>
+                                <option value="history-9a">Historia 9A</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Fecha</label>
+                            <input type="date" id="attendanceDate" class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-500 focus:border-blue-500"/>
+                        </div>
+                        <button id="takeAttendanceBtn" class="w-full bg-blue-600 text-white py-3 rounded-lg hover:bg-blue-700 transition-colors font-medium">
+                            Tomar Asistencia
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Participation Section -->
+            <div class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
+                <div class="p-6 border-b border-gray-200">
+                    <h3 class="text-lg font-semibold text-gray-900 mb-2">Registro de Participación</h3>
+                    <p class="text-sm text-gray-600">Evalúa la participación de los estudiantes</p>
+                </div>
+                <div class="p-6">
+                    <div class="space-y-4">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Estudiante</label>
+                            <select id="studentSelect" class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+                                <option value="">Seleccionar estudiante</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Tipo de Participación</label>
+                            <select id="participationType" class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+                                <option value="respuesta">Respuesta</option>
+                                <option value="pregunta">Pregunta</option>
+                                <option value="participacion_activa">Participación Activa</option>
+                                <option value="presentacion">Presentación</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Puntaje (1-10)</label>
+                            <input type="range" id="participationScore" min="1" max="10" value="5" class="w-full"/>
+                            <div class="flex justify-between text-xs text-gray-500 mt-1">
+                                <span>1</span>
+                                <span id="scoreValue" class="font-medium">5</span>
+                                <span>10</span>
+                            </div>
+                        </div>
+                        <button id="recordParticipationBtn" class="w-full bg-purple-600 text-white py-3 rounded-lg hover:bg-purple-700 transition-colors font-medium">
+                            Registrar Participación
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Reports Section -->
+            <div class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
+                <div class="p-6 border-b border-gray-200">
+                    <h3 class="text-lg font-semibold text-gray-900 mb-2">Reportes y Análisis</h3>
+                    <p class="text-sm text-gray-600">Visualiza el rendimiento de los estudiantes</p>
+                </div>
+                <div class="p-6">
+                    <div class="space-y-3">
+                        <button id="attendanceReportBtn" class="w-full text-left p-3 rounded-lg border border-gray-200 hover:bg-gray-50 transition-colors">
+                            <div class="flex items-center">
+                                <svg class="w-5 h-5 text-blue-600 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path>
+                                </svg>
+                                <span class="font-medium">Reporte de Asistencia</span>
+                            </div>
+                        </button>
+                        <button id="participationReportBtn" class="w-full text-left p-3 rounded-lg border border-gray-200 hover:bg-gray-50 transition-colors">
+                            <div class="flex items-center">
+                                <svg class="w-5 h-5 text-purple-600 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"></path>
+                                </svg>
+                                <span class="font-medium">Reporte de Participación</span>
+                            </div>
+                        </button>
+                        <button id="studentAnalyticsBtn" class="w-full text-left p-3 rounded-lg border border-gray-200 hover:bg-gray-50 transition-colors">
+                            <div class="flex items-center">
+                                <svg class="w-5 h-5 text-green-600 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 8v8m-4-5v5m-4-2v2m-2 4h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+                                </svg>
+                                <span class="font-medium">Análisis Individual</span>
+                            </div>
+                        </button>
+                        <button id="classOverviewBtn" class="w-full text-left p-3 rounded-lg border border-gray-200 hover:bg-gray-50 transition-colors">
+                            <div class="flex items-center">
+                                <svg class="w-5 h-5 text-amber-600 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path>
+                                </svg>
+                                <span class="font-medium">Vista General de Clase</span>
+                            </div>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Recent Activity -->
+        <div class="mt-8 bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
+            <div class="p-6 border-b border-gray-200">
+                <h3 class="text-lg font-semibold text-gray-900">Actividad Reciente</h3>
+            </div>
+            <div class="p-6">
+                <div id="recentActivity" class="space-y-4">
+                    <!-- Activity items will be populated by JavaScript -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modals -->
+    <!-- Attendance Modal -->
+    <div id="attendanceModal" class="fixed inset-0 bg-black bg-opacity-50 hidden z-50">
+        <div class="flex items-center justify-center min-h-screen p-4">
+            <div class="bg-white rounded-xl max-w-4xl w-full max-h-screen overflow-y-auto">
+                <div class="p-6 border-b border-gray-200">
+                    <div class="flex justify-between items-center">
+                        <h3 class="text-xl font-semibold text-gray-900">Tomar Asistencia</h3>
+                        <button id="closeAttendanceModal" class="text-gray-400 hover:text-gray-600">
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+                <div class="p-6">
+                    <div class="mb-6">
+                        <div class="flex justify-between items-center mb-4">
+                            <h4 class="text-lg font-medium text-gray-900">Lista de Estudiantes</h4>
+                            <div class="flex space-x-2">
+                                <button id="markAllPresent" class="bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 transition-colors text-sm">
+                                    Todos Presentes
+                                </button>
+                                <button id="markAllAbsent" class="bg-red-600 text-white px-4 py-2 rounded-lg hover:bg-red-700 transition-colors text-sm">
+                                    Todos Ausentes
+                                </button>
+                            </div>
+                        </div>
+                        <div id="attendanceList" class="space-y-3">
+                            <!-- Student attendance items will be populated here -->
+                        </div>
+                    </div>
+                    <div class="flex justify-end space-x-3">
+                        <button id="cancelAttendance" class="px-6 py-2 border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors">
+                            Cancelar
+                        </button>
+                        <button id="saveAttendance" class="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors">
+                            Guardar Asistencia
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Report Modal -->
+    <div id="reportModal" class="fixed inset-0 bg-black bg-opacity-50 hidden z-50">
+        <div class="flex items-center justify-center min-h-screen p-4">
+            <div class="bg-white rounded-xl max-w-6xl w-full max-h-screen overflow-y-auto">
+                <div class="p-6 border-b border-gray-200">
+                    <div class="flex justify-between items-center">
+                        <h3 class="text-xl font-semibold text-gray-900" id="reportTitle">Reporte</h3>
+                        <button id="closeReportModal" class="text-gray-400 hover:text-gray-600">
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+                <div class="p-6">
+                    <div id="reportContent">
+                        <!-- Report content will be populated here -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="main.js"></script>
+
+</body></html>
