@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ToDo - Semana14</title>
+    <link rel="stylesheet" href="styles.css">
+    <meta name="description" content="Aplicación ToDo simple con registrar, consultar, editar y eliminar">
+</head>
+<body>
+    <header class="header">
+        <h1>Aplicación ToDo</h1>
+        <p class="subtitle">Registrar, consultar, editar y eliminar tareas (almacenamiento local)</p>
+    </header>
+
+    <main class="container">
+        <section class="panel">
+            <h2>Registrar tarea</h2>
+            <form id="task-form" class="form">
+                <label for="title">Título</label>
+                <input type="text" id="title" placeholder="Título" required>
+
+                <label for="description">Descripción</label>
+                <textarea id="description" placeholder="Descripción (opcional)"></textarea>
+
+                <div class="form-actions">
+                    <button type="submit" class="btn">Registrar</button>
+                    <button type="button" id="clear-btn" class="btn alt">Limpiar</button>
+                </div>
+            </form>
+        </section>
+
+        <section class="panel">
+            <h2>Consultar tareas</h2>
+            <div class="controls">
+                <input type="text" id="search" placeholder="Buscar por título o descripción">
+                <select id="filter">
+                    <option value="all">Todas</option>
+                    <option value="pending">Pendientes</option>
+                    <option value="done">Completadas</option>
+                </select>
+            </div>
+
+            <ul id="task-list" class="task-list" aria-live="polite"></ul>
+        </section>
+
+        <!-- Edit modal -->
+        <div id="edit-modal" class="modal hidden" role="dialog" aria-modal="true" aria-labelledby="edit-title">
+            <div class="modal-content">
+                <h3 id="edit-title">Editar tarea</h3>
+                <form id="edit-form" class="form">
+                    <input type="hidden" id="edit-id">
+                    <label for="edit-title-input">Título</label>
+                    <input type="text" id="edit-title-input" required>
+
+                    <label for="edit-description-input">Descripción</label>
+                    <textarea id="edit-description-input"></textarea>
+
+                    <label class="checkbox"><input type="checkbox" id="edit-done"> Completada</label>
+
+                    <div class="form-actions">
+                        <button type="submit" class="btn">Guardar</button>
+                        <button type="button" id="edit-cancel" class="btn alt">Cancelar</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+    </main>
+
+    <script src="app.js"></script>
+</body>
+</html>
