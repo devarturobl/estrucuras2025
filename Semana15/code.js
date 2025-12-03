@@ -1,3 +1,4 @@
+/*
 //Desclaracion de variable global
 let x = 10;
 
@@ -11,6 +12,8 @@ console.log("Before increment:", x);
 incrementX();
 
 console.log("After increment:", x); 
+
+determinaValor(10);
 
 // Intentando acceder a la variable local y fuera de su alcance error
 //console.log("Accessing local variable y:", y);
@@ -121,3 +124,122 @@ function numberToSpanish(n) {
 
 
 numberToSpanish(1002);
+
+
+
+
+function suma(a, b) {
+    return a + b;
+}
+
+let resultado = suma(5, 7);
+console.log("Resultado de la suma:", resultado);
+
+function suma2(a, b) {
+    console.log("Sumando:", a, "+", b, "=" , a + b);
+}
+
+suma2(3, 4);
+
+function muestraFunciones() {
+    let a2 = suma(8, 12);
+    console.log("Resultado dentro de muestraFunciones:", a2);
+    suma2(6, 9);
+}
+
+muestraFunciones();
+
+
+
+
+function myFunction() {
+    this.value = 42;
+    this.saludo = "Hola Mundo";
+    this.cantidad = 100;
+}
+
+myObject = new myFunction();
+
+
+console.log(myObject.value, myObject.saludo, myObject.cantidad);
+    
+
+function myFunction2(value, saludo, cantidad) {
+    {
+        this.value,
+        this.saludo,
+        this.cantidad
+    }
+
+    this.value = value;
+    this.saludo = saludo;
+    this.cantidad = cantidad;
+}
+
+myObject2 = new myFunction2(33, "Hola Universo", 200);
+
+console.log(myObject2.value, myObject2.saludo, myObject2.cantidad);
+
+
+*/
+
+function MyFunction( myArgument ) {
+    this.myValue = myArgument;
+    this.doubleMyValue = () => myArgument * 2;
+}
+const myObject = new MyFunction("50");
+
+console.log( myObject.myValue ); // 10
+console.log( myObject.doubleMyValue() ); // 20  
+
+class MisMates{
+    suma(a, b){
+        return a + b;
+    }
+
+    resta(a, b){
+        return a - b;
+    }   
+    
+    divsion(a, b){
+        return a / b;
+    }       
+
+    multiplicacion(a, b){
+        return a * b;
+    }           
+}
+
+const mate = new MisMates();
+
+console.log("Suma:", mate.suma(10, 5));
+console.log("Resta:", mate.resta(10, 5));
+console.log("División:", mate.divsion(10, 5));
+console.log("Multiplicación:", mate.multiplicacion(10, 5));
+
+
+
+function MisMates2(){
+    this.suma = (a, b) =>{
+        return a + b;
+    }
+
+    this.resta = (a, b) =>{
+        return a - b;
+    }   
+    
+    this.divsion = (a, b) =>{
+        return a / b;
+    }       
+
+    this.multiplicacion = (a, b) =>{
+        return a * b;
+    }           
+}
+
+const mate2 = new MisMates2();
+
+console.log("Suma:", mate2.suma(10, 10));
+console.log("Resta:", mate2.resta(1000, 50));
+console.log("División:", mate2.divsion(10, 2));
+console.log("Multiplicación:", mate2.multiplicacion(100, 500));
