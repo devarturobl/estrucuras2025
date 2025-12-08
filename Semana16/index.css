@@ -1,0 +1,126 @@
+@import url('https://fonts.googleapis.com/css2?family=Bitcount+Prop+Single:wght@100..900&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: "Bitcount Prop Single", system-ui;
+    font-optical-sizing: auto;
+    font-style: normal;
+    background-color: #222;
+    color: #fff;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    min-height: 100dvh;
+}
+
+/* Imagenes */
+
+main {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); 
+    gap: 5px;
+    flex: 1;
+}
+
+.container {
+    width: 100%;
+    padding: 30px 10px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.container-btn-types {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    flex-wrap: wrap;
+}
+
+.btn-types {
+    border: 0;
+    padding: 10px 20px;
+    font-weight: bold;
+    font-size: 1.3rem;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+/*Me brinco las cards*/
+
+.pokemon-type-normal, .btn-type-normal {
+    background-color: #A8A77A;
+}
+
+.pokemon-type-fire, .btn-type-fire {
+    background-color: #EE8130;
+}
+
+.pokemon-type-water, .btn-type-water {
+    background-color: #6390F0;
+}
+
+.pokemon-type-grass, .btn-type-grass {
+    background-color: #7AC74C;
+}
+
+.pokemon-type-electric, .btn-type-electric {
+    background-color: #F7D02C;
+}
+
+.pokemon-type-ice, .btn-type-ice {
+    background-color: #96D9D6;
+}
+
+.pokemon-type-fighting, .btn-type-fighting {
+    background-color: #C22E28;
+}
+
+.pokemon-type-poison, .btn-type-poison {
+    background-color: #A33EA1;
+}
+
+.pokemon-type-ground, .btn-type-ground {
+    background-color: #E2BF65;
+}
+
+.pokemon-type-flying, .btn-type-flying {
+    background-color: #A98FF3;
+}
+
+.pokemon-type-psychic, .btn-type-psychic {
+    background-color: #F95587;
+}
+
+.pokemon-type-bug, .btn-type-bug {
+    background-color: #A6B91A;
+}
+
+.pokemon-type-rock, .btn-type-rock {
+    background-color: #B6A136;
+}
+
+.pokemon-type-ghost, .btn-type-ghost {
+    background-color: #735797;
+}
+
+.pokemon-type-dragon, .btn-type-dragon {
+    background-color: #6F35FC;
+}
+
+.pokemon-type-dark, .btn-type-dark {
+    background-color: #705746;
+}
+
+.pokemon-type-steel, .btn-type-steel {
+    background-color: #B7B7CE;
+}
+
+.pokemon-type-fairy, .btn-type-fairy {
+    background-color: #D685AD;
+}
