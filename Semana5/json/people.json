@@ -1,0 +1,14 @@
+{
+    "name": "Héctor de León",
+    "email": "unmail@mail.com",
+    "site": "http://www.hdeleon.net",
+    "twitter": "http://twiter.com/powerhdeleon",
+    "skills": [
+        "backend", "frontend", "Iot"
+    ],
+    "address": {
+        "city": "Guadalajara",
+        "region": "Jalisco",
+        "country": "México"
+    }
+}

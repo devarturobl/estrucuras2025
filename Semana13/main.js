@@ -14,6 +14,9 @@ class EduTrackSystem {
         this.initializeEventListeners();
         this.updateDashboard();
         this.loadRecentActivity();
+        this.renderClassCards();
+        this.renderStudentList();
+        this.attachUIHandlers();
     }
 
     // Inicialización de datos de ejemplo
@@ -109,13 +112,23 @@ class EduTrackSystem {
                 classGroup: "10B",
                 enrollmentDate: "2024-01-15",
                 status: "active"
-            }
+            },
+              {
+                id: "student_011",
+                name: "Raúl Cruz Torres",
+                email: "raul.cruz@email.com",
+                studentId: "2024011",
+                classGroup: "10B",
+                enrollmentDate: "2024-01-15",
+                status: "active"
+            },
         ];
 
         // Clases de ejemplo
+        // IDs ajustados para coincidir con los valores usados en el HTML
         this.classes = [
             {
-                id: "class_001",
+                id: "math-10a",
                 name: "Matemáticas Avanzadas",
                 subject: "MAT",
                 teacherId: "teacher_001",
@@ -124,7 +137,7 @@ class EduTrackSystem {
                 maxStudents: 30
             },
             {
-                id: "class_002",
+                id: "science-10b",
                 name: "Ciencias Naturales",
                 subject: "SCI",
                 teacherId: "teacher_001",
@@ -133,13 +146,22 @@ class EduTrackSystem {
                 maxStudents: 25
             },
             {
-                id: "class_003",
+                id: "history-9a",
                 name: "Historia Universal",
                 subject: "HIS",
                 teacherId: "teacher_001",
                 schedule: "Miércoles 14:00-16:00",
                 semester: "2024-1",
                 maxStudents: 28
+            },
+            {
+                id: "sdt-10a",
+                name: "Estructuras de Datos",
+                subject: "SDT",
+                teacherId: "teacher_001",
+                schedule: "Miércoles 14:00-16:00",
+                semester: "2024-1",
+                maxStudents: 30
             }
         ];
 
@@ -319,6 +341,8 @@ class EduTrackSystem {
         this.closeAttendanceModal();
         this.updateDashboard();
         this.loadRecentActivity();
+        this.renderClassCards();
+        this.renderStudentList();
         this.showNotification('Asistencia guardada exitosamente', 'success');
     }
 
@@ -351,6 +375,8 @@ class EduTrackSystem {
         this.saveToStorage();
         this.updateDashboard();
         this.loadRecentActivity();
+        this.renderClassCards();
+        this.renderStudentList();
         this.showNotification(`Participación registrada para ${student.name}`, 'success');
         
         // Reset form
@@ -396,7 +422,8 @@ class EduTrackSystem {
         const classMap = {
             'math-10a': '10A',
             'science-10b': '10B',
-            'history-9a': '9A'
+            'history-9a': '9A',
+            'sdt-10a': '10A'
         };
         return classMap[classId] || '10A';
     }
@@ -405,7 +432,8 @@ class EduTrackSystem {
         const classMap = {
             'math-10a': 'Matemáticas Avanzadas',
             'science-10b': 'Ciencias Naturales',
-            'history-9a': 'Historia Universal'
+            'history-9a': 'Historia Universal',
+            'sdt-10a': 'Estructuras de Datos'
         };
         return classMap[classId] || 'Clase no encontrada';
     }
@@ -425,6 +453,88 @@ class EduTrackSystem {
     setDefaultDate() {
         const today = new Date().toISOString().split('T')[0];
         document.getElementById('attendanceDate').value = today;
+    }
+
+    // Renderizado de tarjetas de clase
+    renderClassCards() {
+        const container = document.getElementById('classCards');
+        if (!container) return;
+
+        container.innerHTML = this.classes.map(cls => {
+            const totalStudents = this.students.filter(s => s.classGroup === this.getClassGroupFromClassId(cls.id)).length;
+            return `
+                <div class="class-card bg-white p-4 rounded-lg border border-gray-200 cursor-pointer hover:bg-gray-50" data-class-id="${cls.id}">
+                    <h4 class="font-semibold text-sm mb-1">${cls.name}</h4>
+                    <p class="text-xs text-gray-500 mb-2">${cls.schedule}</p>
+                    <div class="flex justify-between text-sm">
+                        <span class="text-gray-600">Estudiantes</span>
+                        <span class="font-medium">${totalStudents}/${cls.maxStudents}</span>
+                    </div>
+                </div>
+            `;
+        }).join('');
+    }
+
+    // Renderizado de lista de estudiantes
+    renderStudentList() {
+        const container = document.getElementById('studentList');
+        if (!container) return;
+
+        container.innerHTML = this.students.map(student => `
+            <div class="student-item flex items-center justify-between p-2 border border-gray-100 rounded cursor-pointer hover:bg-gray-50" data-student-id="${student.id}">
+                <div>
+                    <div class="text-sm font-medium">${student.name}</div>
+                    <div class="text-xs text-gray-500">ID: ${student.studentId} • Grupo ${student.classGroup}</div>
+                </div>
+                <div class="text-xs text-gray-500">${student.status}</div>
+            </div>
+        `).join('');
+    }
+
+    attachUIHandlers() {
+        // Delegación para tarjetas de clase
+        const classContainer = document.getElementById('classCards');
+        if (classContainer) {
+            classContainer.addEventListener('click', (e) => {
+                const card = e.target.closest('.class-card');
+                if (!card) return;
+                const classId = card.getAttribute('data-class-id');
+                const select = document.getElementById('classSelect');
+                if (select) select.value = classId;
+
+                // pequeña animación manual
+                card.classList.add('pulse-animation');
+                setTimeout(() => card.classList.remove('pulse-animation'), 1000);
+            });
+        }
+
+        // Delegación para estudiantes
+        const studentContainer = document.getElementById('studentList');
+        if (studentContainer) {
+            studentContainer.addEventListener('click', (e) => {
+                const item = e.target.closest('.student-item');
+                if (!item) return;
+                const studentId = item.getAttribute('data-student-id');
+                const select = document.getElementById('studentSelect');
+                if (select) select.value = studentId;
+
+                item.classList.add('pulse-animation');
+                setTimeout(() => item.classList.remove('pulse-animation'), 1000);
+            });
+        }
+
+        // Sincronización entre pestañas: si cambia localStorage, recargar datos
+        window.addEventListener('storage', (e) => {
+            if (e.key && e.key.startsWith('edutrack_')) {
+                this.loadFromStorage();
+                this.updateDashboard();
+                this.loadRecentActivity();
+                this.renderClassCards();
+                this.renderStudentList();
+                this.populateClassSelect();
+                this.populateStudentSelect();
+            }
+        });
     }
 
     updateDashboard() {
@@ -821,8 +931,10 @@ class EduTrackSystem {
     animateElement(elementId, animation) {
         const element = document.getElementById(elementId) || document.querySelector(`.${elementId}`);
         if (element) {
-            element.classList.add(animation);
-            setTimeout(() => element.classList.remove(animation), 1000);
+            // mapear nombre de animación a la clase CSS definida en el HTML
+            const animationClass = animation === 'pulse' ? 'pulse-animation' : animation;
+            element.classList.add(animationClass);
+            setTimeout(() => element.classList.remove(animationClass), 1000);
         }
     }
 
